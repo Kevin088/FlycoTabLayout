@@ -68,6 +68,9 @@
     <attr name="tl_textSelectColor" format="color"/>
     <!-- 设置字体未选中颜色 -->
     <attr name="tl_textUnselectColor" format="color"/>
+
+
+    <attr name="tl_text" format="color"/>
     <!-- 设置字体加粗 -->
     <attr name="tl_textBold" format="enum">
         <enum name="NONE" value="0"/>
@@ -112,7 +115,10 @@
         <attr name="tl_textUnselectColor"/>
         <attr name="tl_textBold"/>
         <attr name="tl_textAllCaps"/>
-
+        <!-- 设置字体选中 大小 -->
+        <attr name="tl_textSelectSize" format="dimension"/>
+        <!-- 设置字体选中 是否粗体 -->
+        <attr name="tl_is_select_bold" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="CommonTabLayout">

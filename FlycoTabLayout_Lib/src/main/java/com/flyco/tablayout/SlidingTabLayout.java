@@ -93,9 +93,14 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
     private int mTextBold;
     private boolean mTextAllCaps;
 
+    private float mTextSelectSize;
+    private boolean isSelectBold;
+
     private int mLastScrollX;
     private int mHeight;
     private boolean mSnapOnTabClick;
+
+
 
     public SlidingTabLayout(Context context) {
         this(context, null, 0);
@@ -156,10 +161,14 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         mDividerPadding = ta.getDimension(R.styleable.SlidingTabLayout_tl_divider_padding, dp2px(12));
 
         mTextsize = ta.getDimension(R.styleable.SlidingTabLayout_tl_textsize, sp2px(14));
-        mTextSelectColor = ta.getColor(R.styleable.SlidingTabLayout_tl_textSelectColor, Color.parseColor("#ffffff"));
+        mTextSelectColor= ta.getColor(R.styleable.SlidingTabLayout_tl_textSelectColor, Color.parseColor("#ffffff"));
         mTextUnselectColor = ta.getColor(R.styleable.SlidingTabLayout_tl_textUnselectColor, Color.parseColor("#AAffffff"));
         mTextBold = ta.getInt(R.styleable.SlidingTabLayout_tl_textBold, TEXT_BOLD_NONE);
         mTextAllCaps = ta.getBoolean(R.styleable.SlidingTabLayout_tl_textAllCaps, false);
+
+        mTextSelectSize = ta.getDimension(R.styleable.SlidingTabLayout_tl_textSelectSize, sp2px(0));
+        isSelectBold = ta.getBoolean(R.styleable.SlidingTabLayout_tl_is_select_bold, false);
+
 
         mTabSpaceEqual = ta.getBoolean(R.styleable.SlidingTabLayout_tl_tab_space_equal, false);
         mTabWidth = ta.getDimension(R.styleable.SlidingTabLayout_tl_tab_width, dp2px(-1));
@@ -297,18 +306,28 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
 //            v.setPadding((int) mTabPadding, v.getPaddingTop(), (int) mTabPadding, v.getPaddingBottom());
             TextView tv_tab_title = (TextView) v.findViewById(R.id.tv_tab_title);
             if (tv_tab_title != null) {
-                tv_tab_title.setTextColor(i == mCurrentTab ? mTextSelectColor : mTextUnselectColor);
-                tv_tab_title.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextsize);
+                tv_tab_title.setTextColor(i == mCurrentTab ?  mTextSelectColor: mTextUnselectColor);
                 tv_tab_title.setPadding((int) mTabPadding, 0, (int) mTabPadding, 0);
+                if(mTextSelectSize>0&&i == mCurrentTab){
+                    tv_tab_title.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSelectSize);
+                }else{
+                    tv_tab_title.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextsize);
+                }
+
                 if (mTextAllCaps) {
                     tv_tab_title.setText(tv_tab_title.getText().toString().toUpperCase());
                 }
-
                 if (mTextBold == TEXT_BOLD_BOTH) {
                     tv_tab_title.getPaint().setFakeBoldText(true);
                 } else if (mTextBold == TEXT_BOLD_NONE) {
                     tv_tab_title.getPaint().setFakeBoldText(false);
                 }
+                if(isSelectBold&&i == mCurrentTab){
+                    tv_tab_title.getPaint().setFakeBoldText(true);
+                }else{
+                    tv_tab_title.getPaint().setFakeBoldText(false);
+                }
+
             }
         }
     }
@@ -368,7 +387,18 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
             TextView tab_title = (TextView) tabView.findViewById(R.id.tv_tab_title);
 
             if (tab_title != null) {
-                tab_title.setTextColor(isSelect ? mTextSelectColor : mTextUnselectColor);
+                if(mTextSelectSize>0&&isSelect){
+                    tab_title.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSelectSize);
+                }else{
+                    tab_title.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextsize);
+                }
+                if(isSelectBold&&isSelect){
+                    tab_title.getPaint().setFakeBoldText(true);
+                }else{
+                    tab_title.getPaint().setFakeBoldText(false);
+                }
+
+                tab_title.setTextColor(isSelect ?mTextSelectColor  : mTextUnselectColor);
                 if (mTextBold == TEXT_BOLD_WHEN_SELECT) {
                     tab_title.getPaint().setFakeBoldText(isSelect);
                 }

@@ -53,8 +53,9 @@
                 android:layout_height="48dp"
                 android:background="#3F9FE0"
                 tl:tl_textAllCaps="true"
-                tl:tl_textBold="BOTH"
-                tl:tl_textsize="14sp"/>
+                tl:tl_textSelectSize="22sp"
+                tl:tl_textsize="14sp"
+                tl:tl_is_select_bold="true"/>
 
             <com.flyco.tablayout.SlidingTabLayout
                 android:id="@+id/tl_4"
