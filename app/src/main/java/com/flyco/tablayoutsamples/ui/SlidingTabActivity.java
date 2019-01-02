@@ -129,6 +129,7 @@ public class SlidingTabActivity extends AppCompatActivity implements OnTabSelect
 
         @Override
         public CharSequence getPageTitle(int position) {
+
             return mTitles[position];
         }
 

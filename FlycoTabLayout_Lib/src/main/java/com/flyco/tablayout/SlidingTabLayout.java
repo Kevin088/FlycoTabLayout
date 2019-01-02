@@ -212,7 +212,6 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         this.mViewPager.addOnPageChangeListener(this);
         notifyDataSetChanged();
     }
-
     /** 关联ViewPager,用于连适配器都不想自己实例化的情况 */
     public void setViewPager(ViewPager vp, String[] titles, FragmentActivity fa, ArrayList<Fragment> fragments) {
         if (vp == null) {
@@ -230,15 +229,31 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         this.mViewPager.addOnPageChangeListener(this);
         notifyDataSetChanged();
     }
+    //设置数据
+    public void setmTitles(ArrayList<String> mTitles){
+        this.mTitles=mTitles;
+    }
 
     /** 更新数据 */
     public void notifyDataSetChanged() {
         mTabsContainer.removeAllViews();
-        this.mTabCount = mTitles == null ? mViewPager.getAdapter().getCount() : mTitles.size();
+        if(mViewPager!=null){
+            this.mTabCount = mTitles == null ? mViewPager.getAdapter().getCount() : mTitles.size();
+        }else{
+            this.mTabCount = mTitles == null ? 0 : mTitles.size();
+        }
+
         View tabView;
         for (int i = 0; i < mTabCount; i++) {
             tabView = View.inflate(mContext, R.layout.layout_tab, null);
-            CharSequence pageTitle = mTitles == null ? mViewPager.getAdapter().getPageTitle(i) : mTitles.get(i);
+            CharSequence pageTitle="";
+            if(mViewPager==null){
+                pageTitle = mTitles == null ? "" : mTitles.get(i);
+
+            }else{
+                pageTitle = mTitles == null ? mViewPager.getAdapter().getPageTitle(i) : mTitles.get(i);
+
+            }
             addTab(i, pageTitle.toString(), tabView);
         }
 
@@ -270,21 +285,28 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
             public void onClick(View v) {
                 int position = mTabsContainer.indexOfChild(v);
                 if (position != -1) {
-                    if (mViewPager.getCurrentItem() != position) {
-                        if (mSnapOnTabClick) {
-                            mViewPager.setCurrentItem(position, false);
-                        } else {
-                            mViewPager.setCurrentItem(position);
-                        }
+                    if(mViewPager!=null){
+                        if (mViewPager.getCurrentItem() != position) {
+                            if (mSnapOnTabClick) {
+                                mViewPager.setCurrentItem(position, false);
+                            } else {
+                                mViewPager.setCurrentItem(position);
+                            }
 
+                            if (mListener != null) {
+                                mListener.onTabSelect(position);
+                            }
+                        } else {
+                            if (mListener != null) {
+                                mListener.onTabReselect(position);
+                            }
+                        }
+                    }else{
                         if (mListener != null) {
                             mListener.onTabSelect(position);
                         }
-                    } else {
-                        if (mListener != null) {
-                            mListener.onTabReselect(position);
-                        }
                     }
+
                 }
             }
         });
@@ -556,13 +578,18 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
     //setter and getter
     public void setCurrentTab(int currentTab) {
         this.mCurrentTab = currentTab;
-        mViewPager.setCurrentItem(currentTab);
+        if(mViewPager!=null){
+            mViewPager.setCurrentItem(currentTab);
+        }
+
 
     }
 
     public void setCurrentTab(int currentTab, boolean smoothScroll) {
         this.mCurrentTab = currentTab;
-        mViewPager.setCurrentItem(currentTab, smoothScroll);
+        if(mViewPager!=null){
+            mViewPager.setCurrentItem(currentTab, smoothScroll);
+        }
     }
 
     public void setIndicatorStyle(int indicatorStyle) {
