@@ -586,6 +586,10 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         this.mCurrentTab = currentTab;
         if(mViewPager!=null){
             mViewPager.setCurrentItem(currentTab);
+        }else{
+            updateTabSelection(currentTab);
+            scrollToCurrentTab();
+            invalidate();
         }
 
 
