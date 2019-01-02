@@ -309,7 +309,7 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
                         }
                         mCurrentTab=position;
                         updateTabSelection(position);
-                        //scrollToCurrentTab();
+                        scrollToCurrentTab();
                         invalidate();
                     }
 
