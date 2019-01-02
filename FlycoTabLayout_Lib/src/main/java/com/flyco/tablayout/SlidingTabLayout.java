@@ -55,6 +55,7 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
     private static final int STYLE_NORMAL = 0;
     private static final int STYLE_TRIANGLE = 1;
     private static final int STYLE_BLOCK = 2;
+    private static final int STYLE_NONE = 3;
     private int mIndicatorStyle = STYLE_NORMAL;
 
     private float mTabPadding;
@@ -232,6 +233,7 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
     //设置数据
     public void setmTitles(ArrayList<String> mTitles){
         this.mTitles=mTitles;
+        notifyDataSetChanged();
     }
 
     /** 更新数据 */
@@ -305,6 +307,10 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
                         if (mListener != null) {
                             mListener.onTabSelect(position);
                         }
+                        mCurrentTab=position;
+                        updateTabSelection(position);
+                        //scrollToCurrentTab();
+                        invalidate();
                     }
 
                 }
