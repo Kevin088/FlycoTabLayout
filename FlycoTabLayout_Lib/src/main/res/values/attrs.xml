@@ -120,6 +120,8 @@
         <attr name="tl_textSelectSize" format="dimension"/>
         <!-- 设置字体选中 是否粗体 -->
         <attr name="tl_is_select_bold" format="boolean"/>
+        <!-- 设置字体选中 是否粗体 -->
+        <attr name="tl_is_show_hot" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="CommonTabLayout">

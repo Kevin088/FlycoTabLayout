@@ -1,5 +1,6 @@
 package com.flyco.tablayout;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -7,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -17,13 +19,16 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.flyco.tablayout.listener.OnTabSelectListener;
@@ -96,6 +101,7 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
 
     private float mTextSelectSize;
     private boolean isSelectBold;
+    private boolean isShowHot;
 
     private int mLastScrollX;
     private int mHeight;
@@ -169,6 +175,7 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
 
         mTextSelectSize = ta.getDimension(R.styleable.SlidingTabLayout_tl_textSelectSize, sp2px(0));
         isSelectBold = ta.getBoolean(R.styleable.SlidingTabLayout_tl_is_select_bold, false);
+        isShowHot = ta.getBoolean(R.styleable.SlidingTabLayout_tl_is_show_hot, false);
 
 
         mTabSpaceEqual = ta.getBoolean(R.styleable.SlidingTabLayout_tl_tab_space_equal, false);
@@ -835,22 +842,49 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
      * @param position 显示tab位置
      * @param num      num小于等于0显示红点,num大于0显示数字
      */
+    @SuppressLint("NewApi")
     public void showMsg(int position, int num) {
         if (position >= mTabCount) {
             position = mTabCount - 1;
         }
 
         View tabView = mTabsContainer.getChildAt(position);
-        MsgView tipView = (MsgView) tabView.findViewById(R.id.rtv_msg_tip);
+        ImageView tipView = (ImageView) tabView.findViewById(R.id.imgview);
         if (tipView != null) {
-            UnreadMsgUtils.show(tipView, num);
-
-            if (mInitSetMap.get(position) != null && mInitSetMap.get(position)) {
-                return;
+            if(position==2){
+                tipView.setImageResource(R.mipmap.ic_slidingtablayout_hot);
+            }else{
+                tipView.setImageResource(R.mipmap.ic_slidingtablayout_suggest);
             }
+            tipView.setVisibility(VISIBLE);
+            //UnreadMsgUtils.show(tipView, num);
 
-            setMsgMargin(position, 4, 2);
-            mInitSetMap.put(position, true);
+//            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) tipView.getLayoutParams();
+//            DisplayMetrics dm = tipView.getResources().getDisplayMetrics();
+//            tipView.setVisibility(View.VISIBLE);
+//            tipView.setStrokeWidth(0);
+//            tipView.setText("");
+
+//            lp.width = (int) (50 * dm.density);
+//            lp.height = (int) (50 * dm.density);
+//            tipView.setLayoutParams(lp);
+//            Drawable drawable=null;
+//            if(position==4){
+//                drawable=mContext.getResources().getDrawable(R.mipmap.ic_slidingtablayout_hot);
+//            }
+//            if(drawable!=null){
+//                tipView.setBackground(drawable);
+//            }
+//
+//
+//
+//
+//            if (mInitSetMap.get(position) != null && mInitSetMap.get(position)) {
+//                return;
+//            }
+//
+//            setMsgMargin(position, 4, 2);
+//            mInitSetMap.put(position, true);
         }
     }
 
