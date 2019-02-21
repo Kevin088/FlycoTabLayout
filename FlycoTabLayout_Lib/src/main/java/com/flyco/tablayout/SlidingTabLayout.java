@@ -849,14 +849,17 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         }
 
         View tabView = mTabsContainer.getChildAt(position);
-        ImageView tipView = (ImageView) tabView.findViewById(R.id.imgview);
-        if (tipView != null) {
-            if(position==2){
-                tipView.setImageResource(R.mipmap.ic_slidingtablayout_hot);
-            }else{
-                tipView.setImageResource(R.mipmap.ic_slidingtablayout_suggest);
+        if (tabView != null) {
+            ImageView tipView = (ImageView) tabView.findViewById(R.id.imgview);
+            if(tipView!=null){
+                if(position==2){
+                    tipView.setImageResource(R.mipmap.ic_slidingtablayout_hot);
+                }else{
+                    tipView.setImageResource(R.mipmap.ic_slidingtablayout_suggest);
+                }
+                tipView.setVisibility(VISIBLE);
             }
-            tipView.setVisibility(VISIBLE);
+
             //UnreadMsgUtils.show(tipView, num);
 
 //            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) tipView.getLayoutParams();
