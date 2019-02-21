@@ -852,9 +852,9 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         if (tabView != null) {
             ImageView tipView = (ImageView) tabView.findViewById(R.id.imgview);
             if(tipView!=null){
-                if(position==2){
+                if(position==1){
                     tipView.setImageResource(R.mipmap.ic_slidingtablayout_hot);
-                }else{
+                }else if(position==3){
                     tipView.setImageResource(R.mipmap.ic_slidingtablayout_suggest);
                 }
                 tipView.setVisibility(VISIBLE);
