@@ -100,6 +100,8 @@
         <attr name="tl_underline_height"/>
         <attr name="tl_underline_gravity"/>
 
+        <attr name="tl_is_underline_image_radius"  format="boolean"/>
+
         <!-- divider -->
         <attr name="tl_divider_color"/>
         <attr name="tl_divider_width"/>

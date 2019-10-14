@@ -3,10 +3,13 @@ package com.flyco.tablayout;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -83,7 +86,9 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
     private int mUnderlineColor;
     private float mUnderlineHeight;
     private int mUnderlineGravity;
-
+    /** underlineImage */
+    private boolean isUnderlineImageRadius;
+    private float imageRadius;
     /** divider */
     private int mDividerColor;
     private float mDividerWidth;
@@ -141,6 +146,7 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
             mHeight = a.getDimensionPixelSize(0, ViewGroup.LayoutParams.WRAP_CONTENT);
             a.recycle();
         }
+        imageRadius=dp2px(3);
     }
 
     private void obtainAttributes(Context context, AttributeSet attrs) {
@@ -162,6 +168,8 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         mUnderlineColor = ta.getColor(R.styleable.SlidingTabLayout_tl_underline_color, Color.parseColor("#ffffff"));
         mUnderlineHeight = ta.getDimension(R.styleable.SlidingTabLayout_tl_underline_height, dp2px(0));
         mUnderlineGravity = ta.getInt(R.styleable.SlidingTabLayout_tl_underline_gravity, Gravity.BOTTOM);
+
+        isUnderlineImageRadius=ta.getBoolean(R.styleable.SlidingTabLayout_tl_is_underline_image_radius, false);
 
         mDividerColor = ta.getColor(R.styleable.SlidingTabLayout_tl_divider_color, Color.parseColor("#ffffff"));
         mDividerWidth = ta.getDimension(R.styleable.SlidingTabLayout_tl_divider_width, dp2px(0));
@@ -582,7 +590,11 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
                             paddingLeft + mIndicatorRect.right - (int) mIndicatorMarginRight,
                             (int) mIndicatorHeight + (int) mIndicatorMarginTop);
                 }
-                mIndicatorDrawable.setCornerRadius(mIndicatorCornerRadius);
+                if(isUnderlineImageRadius){
+                    mIndicatorDrawable.setCornerRadii(new float[]{imageRadius,imageRadius,imageRadius,imageRadius,0,0,0,0});
+                }else{
+                    mIndicatorDrawable.setCornerRadius(mIndicatorCornerRadius);
+                }
                 mIndicatorDrawable.draw(canvas);
             }
         }
